@@ -1,0 +1,33 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <h1>{{msg}}</h1>
+    <h3>{{keyname}}</h3>
+    <form method="post" action="/aws/create/">
+      {% csrf_token %}
+    <div class="row" style="padding-top:10px">
+      <div class="col-md-2">instance name:</div>
+      <div class="col-md-4 col-md-offset-1"><input type="text" class="form-control" name="name" placehold="instance name"/></div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+      <div class="col-md-2">image</div>
+      <div class="col-md-4 col-md-offset-1">
+        <select name="imageId" class="form-control" >
+          {% for image in images %}
+          <option value="{{image.image_id}}">{{image.image_name}}</option>
+          {% endfor %}
+        </select></div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+      <div class="col-md-2">Volume (Go):</div>
+      <div class="col-md-4 col-md-offset-1"><input type="text" name="volume" class="form-control" placehold="instance name"/></div>
+    </div>
+
+  
+<button type="submit" class="btn">add</button>
+</form>
+
+
+{% endblock %}

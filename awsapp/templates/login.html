@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+{{ err_msg }}
+    <form method="post" action="/aws/login/">
+      {% csrf_token %}
+    <div class="row" style="padding-top:10px">
+      <div class="col-md-2">key name:</div>
+      <div class="col-md-4 col-md-offset-1"><input type="text" name="access_key" class="form-control" value="AKIAIYNY2O7YSM2D5UXA"/></div>
+    </div>
+
+
+
+    <div class="row" style="padding-top:10px">
+      <div class="col-md-2">secret key</div>
+      <div class="col-md-4 col-md-offset-1"><input type="text" name="access_scriptkey" class="form-control" value="siWJb2KY8eLldCZM5T5vYfB3uIU4k3j1LsVGrwZN"/></div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+      <div class="col-md-2">region</div>
+      <div class="col-md-4 col-md-offset-1"><input type="text" name="region" class="form-control" value="eu-west-1"/></div>
+    </div>
+
+    <button type="submit" class="btn">Login</button>
+</form>
+
+{% endblock %}

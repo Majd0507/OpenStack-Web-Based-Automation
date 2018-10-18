@@ -1,0 +1,35 @@
+{% extends "template.html" %}
+
+{% block content %}
+  <div class="row" style="padding-top:10px">
+
+    <a href="/aws/create" class="btn btn-link" role="button" aria-pressed="true">create new instance</a>
+      <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">instance id</th>
+      <th scope="col">instance name</th>
+      <th scope="col">public ip address</th>
+      <th scope="col">State</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for instance in instances %}
+    <tr>
+      <th scope="row" ><a href="/aws/details/{{ instance.id }}">{{ instance.id }}</a></th>
+      <td>{{ instance.custemName }}</td>
+      <td>{{ instance.public_ip_address }}</td>
+        <td>{{ instance.custemStatus }}</td>
+      <td>
+        {% if instance.custemStatus == "stopped" %}
+        <a  href="/aws/start/{{ instance.id }}" class="btn btn-primary">start</button>
+        {% elif instance.custemStatus == "running" %}
+        <a href="/aws/stop/{{ instance.id }}" class="btn btn-danger">stop</button>
+        {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+  {% endblock  %}

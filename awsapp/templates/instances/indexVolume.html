@@ -1,0 +1,40 @@
+{% extends "template.html" %}
+
+{% block content %}
+  <div class="row" style="padding-top:10px">
+
+    <a href="/aws/create" class="btn btn-link" role="button" aria-pressed="true">create new instance</a>
+      <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">volume id</th>
+      <th scope="col">State</th>
+      <th scope="col">Type</th>
+      <th scope="col">Size</th>
+      <th scope="col">Attached</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for volume in volumes %}
+    <tr>
+      <th scope="row" >{{ volume.VolumeId }}</th>
+      <td>{{ volume.State }}</td>
+        <td>{{ volume.VolumeType }}</td>
+      <td>{{ volume.Size }}</td>
+      {% for i in volume.Attachments %}
+      <td><a href="/aws/details/{{ i.InstanceId }}">{{ i.InstanceId }}</a> on {{i.Device}}</td>
+
+      {% endfor %}
+
+      {% if volume.State == "available" %}
+      <td></td>
+      <td ><a  href="/aws/deletevolume/{{ volume.VolumeId }}" class="btn btn-danger">delete</a></td>
+      {% endif %}
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+  {% endblock  %}

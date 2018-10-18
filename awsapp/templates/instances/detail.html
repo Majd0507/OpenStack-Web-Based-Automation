@@ -1,0 +1,146 @@
+{% extends "template.html" %}
+{% block content %}
+
+<div class="row">
+  {% if instance.custemStatus == "running" %}
+  <div class="col-md-10"></div>
+  <div class="col-md-2 col-md-offset-8"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  add and attache a volume
+  </button></div>
+  {% else %}
+  <div class="col-md-10"></div>
+  <div class="col-md-2 col-md-offset-8"><button title="instance must be running" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" disabled>
+  add and attache a volume
+  </button></div>
+  {% endif %}
+
+
+</div>
+
+<div class="row">
+<div class="col-md-2">instance id</div>
+<div class="col-md-2">{{instance.id}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">image id</div>
+<div class="col-md-2">{{instance.image_id}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">status</div>
+<div class="col-md-2">{{instance.custemStatus}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">flavor</div>
+<div class="col-md-2">{{instance.instance_type}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">private ip address</div>
+<div class="col-md-2">{{instance.private_ip_address}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">public ip address</div>
+<div class="col-md-2">{{instance.public_ip_address}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">subnet id</div>
+<div class="col-md-2">{{instance.subnet_id}}</div>
+</div>
+
+<div class="row">
+<div class="col-md-2">virtualization type</div>
+<div class="col-md-2">{{instance.virtualization_type}}</div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-8">
+
+  <table class="table table-hover">
+  <thead>
+  <th scope="col">volume id</th>
+  <th scope="col">device name</th>>
+  <th scope="col">volume size (Go)</th>
+    <th scope="col">volume status</th>
+
+
+  </tr>
+  </thead>
+  <tbody>
+  {% for volume in volumes %}
+  <tr>
+    <th scope="row" >{{ volume.id }}</th>
+    <th scope="row" >{{ volume.custemStatus }}</th>
+    <th scope="row" >{{ volume.size }}</th>
+    <th scope="row" >{{ volume.state }}</th>
+      <th scope="row" ><a  href="/aws/detatch/{{ instance.id }}/{{volume.id}}" class="btn btn-danger">detatch</a></th>
+      <th scope="row" ><a  href="/aws/detatchdeletevolume/{{ instance.id }}/{{volume.id}}" class="btn btn-danger">delete</a></th>
+  {% endfor %}
+  </tbody>
+  </table>
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+<div class="row">
+  <div class="col-md-10"></div>
+  <div class="col-md-2">
+  {% if instance.custemStatus == "stopped" %}
+  <a  href="/aws/start/{{ instance.id }}" class="btn btn-primary">start</a>
+  {% elif instance.custemStatus == "running" %}
+  <a href="/aws/stop/{{ instance.id }}" class="btn btn-danger">stop</a>
+  {% endif %}
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">add volume</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/aws/createattachevol/{{instance.id}}/" method="post">
+          {% csrf_token %}
+      <div class="modal-body">
+
+          <div class="col-md-4">Device name </div>
+          <div class="col-md-5"><input type="text" name="deviceName" class="form-control" placehold="vol"/></div>
+          <div class="col-md-4">Volume (Go):</div>
+          <div class="col-md-5"><input type="text" name="volume" class="form-control" placehold="volume"/></div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
